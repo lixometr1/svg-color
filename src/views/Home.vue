@@ -16,10 +16,7 @@
           >
             <v-card-title>Choose pattern: </v-card-title>
             <v-card-text>
-              <pattern-chooser
-                :items="fetchedPatterns"
-                v-model="activePattern"
-              />
+              <pattern-chooser :items="imagePatterns" v-model="activePattern" />
               <v-pagination
                 class="mt-4"
                 v-model="page"
@@ -29,7 +26,7 @@
             </v-card-text>
           </v-card>
         </v-col>
-        <v-col sm="6" cols="12">
+        <v-col sm="6" cols="12" class="position-relative">
           <!-- <pattern-preview :value="activePatternData" v-if="activePattern" /> -->
           <pattern-canvas
             :svg="activePatternData.content"
@@ -56,6 +53,7 @@ import PatternChooser from "../components/PatternChooser/PatternChooser.vue";
 import patternsData from "@/helpers/patterns-data";
 // import PatternPreview from "../components/PatternPreview/PatternPreview.vue";
 import PatternCanvas from "../components/PatternCanvas/PatternCanvas.vue";
+// import svgToBase64 from "@/helpers/svg-to-base64";
 export default {
   name: "Home",
 
@@ -88,6 +86,13 @@ export default {
         start,
         this.perPage * (this.page - 1) + this.perPage
       );
+    },
+    imagePatterns() {
+      return this.fetchedPatterns.map((pattern) => {
+        // const url = svgToBase64(pattern.content);
+        return pattern;
+        // url,
+      });
     },
   },
   created() {

@@ -1,13 +1,19 @@
 <template>
-  <v-item-group :value="value" @change="$emit('input', $event)">
+  <v-item-group
+    :value="value"
+    @change="$emit('input', $event)"
+    class="pattern-chooser"
+  >
     <v-row>
-      <v-col cols="4" sm="3" v-for="(item, idx) in items" :key="idx">
+      <v-col cols="12" sm="6" v-for="(item, idx) in items" :key="idx">
         <v-item v-slot="{ active, toggle }" :value="item.id">
-          <v-card
-            :elevation="active ? 20 : 2"
-            @click="toggle"
-            v-html="item.content"
-          >
+          <v-card :elevation="active ? 20 : 2" @click="toggle">
+            <div class="pattern-chooser-images">
+              <div v-html="item.content"></div>
+              <div v-html="item.content"></div>
+              <div v-html="item.content"></div>
+              <div v-html="item.content"></div>
+            </div>
           </v-card>
         </v-item>
       </v-col>
@@ -26,15 +32,18 @@ export default {
       default: () => [],
     },
   },
-  data: () => ({
-    values: [],
-  }),
+  data: () => ({}),
 };
 </script>
 
 <style lang="scss">
 .pattern-chooser {
-  &-content {
+  &-images {
+    display: flex;
+    flex-wrap: wrap;
+    > div {
+      width: 50%;
+    }
   }
 }
 </style>
