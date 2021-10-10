@@ -34,6 +34,15 @@
         </v-col>
       </v-row>
     </v-container>
+    <v-snackbar v-model="showTooltip" :timeout="3000">
+      {{ tooltipText }}
+
+      <template v-slot:action="{ attrs }">
+        <v-btn color="red" text v-bind="attrs" @click="showTooltip = false">
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
   </div>
 </template>
 
@@ -55,6 +64,8 @@ export default {
     page: 1,
     perPage: 15,
     isLoading: false,
+    showTooltip: false,
+    tooltipText: "",
   }),
   computed: {
     totalPages() {
@@ -89,7 +100,6 @@ export default {
     async fetchPatterns() {
       const startTime = new Date().getTime();
       this.isLoading = true;
-      this.isLoading = true;
       const fetchers = this.pagedPatterns.map(async (pattern) => {
         const content = await fetch(pattern.url).then((r) => r.text());
         return {
@@ -102,7 +112,8 @@ export default {
       this.fetchedPatterns = data;
       this.isLoading = false;
       const endTime = new Date().getTime();
-      alert('Images loaded in ' + (endTime - startTime) + "ms");
+      this.tooltipText = "Images were loaded in " + (endTime - startTime) + "ms";
+      this.showTooltip = true
     },
   },
   watch: {
