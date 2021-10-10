@@ -33,7 +33,6 @@
           <!-- <pattern-preview :value="activePatternData" v-if="activePattern" /> -->
           <pattern-canvas
             :svg="activePatternData.content"
-            class="mt-5"
             v-if="activePattern"
           />
         </v-col>

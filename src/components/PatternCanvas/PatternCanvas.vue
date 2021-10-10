@@ -1,11 +1,16 @@
 <template>
-  <div ref="container">
+  <div ref="container pattern-canvas">
     <v-card>
       <v-card-title>Save as image:</v-card-title>
 
       <v-card-text>
-        <img :src="image" alt="" :style="{ maxWidth: '400px' }"
-      /></v-card-text>
+        <div class="pattern-canvas-images">
+          <img :src="image" alt="" :style="{ maxWidth: '400px' }" />
+          <img :src="image" alt="" :style="{ maxWidth: '400px' }" />
+          <img :src="image" alt="" :style="{ maxWidth: '400px' }" />
+          <img :src="image" alt="" :style="{ maxWidth: '400px' }" />
+        </div>
+      </v-card-text>
       <v-card-actions>
         <v-btn @click="save" size="lg">Save as svg</v-btn>
       </v-card-actions>
@@ -61,4 +66,14 @@ export default {
 };
 </script>
 
-<style lang="scss"></style>
+<style lang="scss">
+.pattern-canvas {
+    &-images {
+        display: flex;
+        flex-wrap: wrap;
+        img {
+            width: 50%;
+        }
+    }
+}
+</style>
