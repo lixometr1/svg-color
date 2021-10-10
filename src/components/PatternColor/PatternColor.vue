@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-row>
-      <v-col md="6">
+      <v-col md="6" cols="12">
         <v-card rounded elevation="5">
           <v-card-title>Choose background color:</v-card-title>
           <v-color-picker
@@ -15,7 +15,7 @@
           ></v-color-picker>
         </v-card>
       </v-col>
-      <v-col sm="6">
+      <v-col sm="6" cols="12">
         <v-card rounded elevation="5">
           <v-card-title>Choose pattern color:</v-card-title>
           <v-color-picker

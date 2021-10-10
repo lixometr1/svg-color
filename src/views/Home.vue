@@ -7,7 +7,7 @@
       />
       <v-divider class="my-10" />
       <v-row>
-        <v-col sm="6">
+        <v-col sm="6" cols="12">
           <v-card
             rounded
             elevation="5"
@@ -29,7 +29,7 @@
             </v-card-text>
           </v-card>
         </v-col>
-        <v-col sm="6">
+        <v-col sm="6" cols="12">
           <pattern-preview :value="activePatternData" v-if="activePattern" />
         </v-col>
       </v-row>

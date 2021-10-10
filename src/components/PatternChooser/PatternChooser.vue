@@ -1,7 +1,7 @@
 <template>
   <v-item-group :value="value" @change="$emit('input', $event)">
     <v-row>
-      <v-col cols="12" sm="3" v-for="(item, idx) in items" :key="idx">
+      <v-col cols="4" sm="3" v-for="(item, idx) in items" :key="idx">
         <v-item v-slot="{ active, toggle }" :value="item.id">
           <v-card
             :elevation="active ? 20 : 2"
