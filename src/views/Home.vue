@@ -87,8 +87,8 @@ export default {
     },
 
     async fetchPatterns() {
+      const startTime = new Date().getTime();
       this.isLoading = true;
-      console.time("fetchPatterns");
       this.isLoading = true;
       const fetchers = this.pagedPatterns.map(async (pattern) => {
         const content = await fetch(pattern.url).then((r) => r.text());
@@ -101,7 +101,8 @@ export default {
       const data = await Promise.all(fetchers);
       this.fetchedPatterns = data;
       this.isLoading = false;
-      console.timeEnd("fetchPatterns");
+      const endTime = new Date().getTime();
+      alert('Images loaded in ' + (endTime - startTime) + "ms");
     },
   },
   watch: {
