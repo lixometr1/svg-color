@@ -10,7 +10,6 @@
         <v-btn @click="save" size="lg">Save as svg</v-btn>
       </v-card-actions>
     </v-card>
-    <canvas width="500" height="500" ref="canv"> </canvas>
   </div>
 </template>
 
@@ -55,9 +54,9 @@ export default {
     },
   },
   watch: {
-    svg() {
-      this.draw();
-    },
+    // svg() {
+    //   this.draw();
+    // },
   },
 };
 </script>
