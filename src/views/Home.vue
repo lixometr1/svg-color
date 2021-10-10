@@ -34,7 +34,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-snackbar v-model="showTooltip" :timeout="3000">
+    <v-snackbar v-model="showTooltip">
       {{ tooltipText }}
 
       <template v-slot:action="{ attrs }">
