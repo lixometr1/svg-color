@@ -30,7 +30,12 @@
           </v-card>
         </v-col>
         <v-col sm="6" cols="12">
-          <pattern-preview :value="activePatternData" v-if="activePattern" />
+          <!-- <pattern-preview :value="activePatternData" v-if="activePattern" /> -->
+          <pattern-canvas
+            :svg="activePatternData.content"
+            class="mt-5"
+            v-if="activePattern"
+          />
         </v-col>
       </v-row>
     </v-container>
@@ -50,11 +55,12 @@
 import PatternColor from "../components/PatternColor/PatternColor.vue";
 import PatternChooser from "../components/PatternChooser/PatternChooser.vue";
 import patternsData from "@/helpers/patterns-data";
-import PatternPreview from "../components/PatternPreview/PatternPreview.vue";
+// import PatternPreview from "../components/PatternPreview/PatternPreview.vue";
+import PatternCanvas from "../components/PatternCanvas/PatternCanvas.vue";
 export default {
   name: "Home",
 
-  components: { PatternColor, PatternChooser, PatternPreview },
+  components: { PatternColor, PatternChooser, PatternCanvas },
   data: () => ({
     patterns: patternsData,
     fetchedPatterns: [],
@@ -112,8 +118,9 @@ export default {
       this.fetchedPatterns = data;
       this.isLoading = false;
       const endTime = new Date().getTime();
-      this.tooltipText = "Images were loaded in " + (endTime - startTime) + "ms";
-      this.showTooltip = true
+      this.tooltipText =
+        "Images were loaded in " + (endTime - startTime) + "ms";
+      this.showTooltip = true;
     },
   },
   watch: {
