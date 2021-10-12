@@ -118,7 +118,7 @@ export default {
       this.isLoading = true;
       const fetchers = items.map(async (pattern) => {
         const content = await fetch(
-          `${config.baseApiUrl}${pattern.url}`
+          pattern.url
         ).then((r) => r.text());
         return {
           ...pattern,
