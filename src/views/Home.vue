@@ -54,6 +54,7 @@ import patternsData from "@/helpers/patterns-data";
 // import PatternPreview from "../components/PatternPreview/PatternPreview.vue";
 import PatternCanvas from "../components/PatternCanvas/PatternCanvas.vue";
 // import svgToBase64 from "@/helpers/svg-to-base64";
+import config from "@/helpers/config";
 export default {
   name: "Home",
 
@@ -69,11 +70,9 @@ export default {
     isLoading: false,
     showTooltip: false,
     tooltipText: "",
+    totalPages: 1,
   }),
   computed: {
-    totalPages() {
-      return Math.ceil(this.patterns.length / this.perPage);
-    },
     activePatternData() {
       return (
         this.fetchedPatterns.find((item) => item.id === this.activePattern) ||
@@ -106,12 +105,21 @@ export default {
           .replace(/#ffffff/gm, this.backgroundColor);
       });
     },
-
+    async fetchData() {
+      const { items, meta } = await fetch(
+        `${config.baseApiUrl}/patterns/paginate?page=${this.page}&perPage=3`
+      ).then((res) => res.json());
+      this.totalPages = meta.totalPages
+      return items;
+    },
     async fetchPatterns() {
+      const items = await this.fetchData();
       const startTime = new Date().getTime();
       this.isLoading = true;
-      const fetchers = this.pagedPatterns.map(async (pattern) => {
-        const content = await fetch(pattern.url).then((r) => r.text());
+      const fetchers = items.map(async (pattern) => {
+        const content = await fetch(
+          `${config.baseApiUrl}${pattern.url.url}`
+        ).then((r) => r.text());
         return {
           ...pattern,
           content,
