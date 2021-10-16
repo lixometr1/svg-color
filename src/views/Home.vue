@@ -16,7 +16,7 @@
               :patternColor.sync="patternColor"
               :backgroundColor.sync="backgroundColor"
             />
-
+            <v-divider class="mt-8 mb-2" />
             <pattern-chooser
               v-model="activePattern"
               :totalPages="totalPages"
