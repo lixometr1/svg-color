@@ -1,30 +1,21 @@
 <template>
   <div>
     <v-container>
-      <pattern-color
+      <pattern-colors
         :patternColor.sync="patternColor"
         :backgroundColor.sync="backgroundColor"
       />
       <v-divider class="my-10" />
       <v-row>
         <v-col sm="6" cols="12">
-          <v-card
-            rounded
-            elevation="5"
-            class="pattern-chooser"
-            :loading="isLoading"
-          >
-            <v-card-title>Choose pattern: </v-card-title>
-            <v-card-text>
-              <pattern-chooser :items="imagePatterns" v-model="activePattern" />
-              <v-pagination
-                class="mt-4"
-                v-model="page"
-                :length="totalPages"
-                circle
-              ></v-pagination>
-            </v-card-text>
-          </v-card>
+          <pattern-chooser
+            v-model="activePattern"
+            :totalPages="totalPages"
+            :items="fetchedPatterns"
+            :page.sync="page"
+            :activeCategories.sync="activePatternCategories"
+            :categories="patternCategories"
+          />
         </v-col>
         <v-col sm="6" cols="12" class="position-relative">
           <!-- <pattern-preview :value="activePatternData" v-if="activePattern" /> -->
@@ -48,29 +39,29 @@
 </template>
 
 <script>
-import PatternColor from "../components/PatternColor/PatternColor.vue";
-import PatternChooser from "../components/PatternChooser/PatternChooser.vue";
-import patternsData from "@/helpers/patterns-data";
+import PatternColors from "../components/PatternColors/PatternColors.vue";
 // import PatternPreview from "../components/PatternPreview/PatternPreview.vue";
 import PatternCanvas from "../components/PatternCanvas/PatternCanvas.vue";
 // import svgToBase64 from "@/helpers/svg-to-base64";
-import config from "@/helpers/config";
+import fetchPatterns from "@/api/fetchPatterns";
+import fetchPatternCategories from "@/api/fetchPatternCategories";
+import PatternChooser from "../components/PatternChooser/PatternChooser.vue";
 export default {
   name: "Home",
 
-  components: { PatternColor, PatternChooser, PatternCanvas },
+  components: { PatternColors, PatternCanvas, PatternChooser },
   data: () => ({
-    patterns: patternsData,
     fetchedPatterns: [],
+    activePatternCategories: [],
+    patternCategories: [],
     activePattern: undefined,
     patternColor: "#000",
     backgroundColor: "#fff",
     page: 1,
-    perPage: 15,
     isLoading: false,
     showTooltip: false,
     tooltipText: "",
-    totalPages: 1,
+    totalPages: 0,
   }),
   computed: {
     activePatternData() {
@@ -79,47 +70,34 @@ export default {
         {}
       );
     },
-    pagedPatterns() {
-      const start = this.perPage * (this.page - 1);
-      return this.patterns.slice(
-        start,
-        this.perPage * (this.page - 1) + this.perPage
-      );
-    },
-    imagePatterns() {
-      return this.fetchedPatterns.map((pattern) => {
-        // const url = svgToBase64(pattern.content);
-        return pattern;
-        // url,
-      });
-    },
   },
   created() {
     this.fetchPatterns();
+    this.fetchPatternCategories()
   },
   methods: {
     changeColor() {
       this.fetchedPatterns.forEach((pattern) => {
-        pattern.content = pattern.defaultContent
-          .replace(/#000000/gm, this.patternColor)
-          .replace(/#ffffff/gm, this.backgroundColor);
+        pattern.content = pattern.defaultContent.replace(
+          /#[a-f0-9A-F]{3,6}/gm,
+          (val) => {
+            const whites = ["#fff", "#ffffff", "#FFF", "#FFFFFF"];
+            if (whites.includes(val)) {
+              return this.backgroundColor;
+            } else {
+              return this.patternColor;
+            }
+          }
+        );
       });
     },
-    async fetchData() {
-      const { items, meta } = await fetch(
-        `${config.baseApiUrl}/patterns/paginate?page=${this.page}&perPage=3`
-      ).then((res) => res.json());
-      this.totalPages = meta.totalPages
-      return items;
+    async fetchPatternCategories() {
+      const { data } = await fetchPatternCategories();
+      this.patternCategories = data;
     },
-    async fetchPatterns() {
-      const items = await this.fetchData();
-      const startTime = new Date().getTime();
-      this.isLoading = true;
+    async fetchPatternsData(items) {
       const fetchers = items.map(async (pattern) => {
-        const content = await fetch(
-          pattern.url
-        ).then((r) => r.text());
+        const content = await fetch(pattern.url).then((r) => r.text());
         return {
           ...pattern,
           content,
@@ -128,6 +106,20 @@ export default {
       });
       const data = await Promise.all(fetchers);
       this.fetchedPatterns = data;
+    },
+    async fetchPatterns() {
+      const {
+        data: { items, meta },
+      } = await fetchPatterns({
+        page: this.page,
+        categories: this.activePatternCategories,
+      });
+
+      this.totalPages = meta.totalPages;
+
+      const startTime = new Date().getTime();
+      this.isLoading = true;
+      await this.fetchPatternsData(items);
       this.isLoading = false;
       const endTime = new Date().getTime();
       this.tooltipText =
@@ -136,6 +128,11 @@ export default {
     },
   },
   watch: {
+    async activePatternCategories() {
+      this.activePattern = undefined;
+      await this.fetchPatterns();
+      this.changeColor();
+    },
     async page() {
       this.activePattern = undefined;
       await this.fetchPatterns();
