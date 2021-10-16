@@ -13,10 +13,10 @@
             @click="toggle"
           >
             <div class="pattern-chooser-images">
-              <div v-html="item.content"></div>
-              <div v-html="item.content"></div>
-              <div v-html="item.content"></div>
-              <div v-html="item.content"></div>
+              <div v-html="item.defaultContent"></div>
+              <div v-html="item.defaultContent"></div>
+              <div v-html="item.defaultContent"></div>
+              <div v-html="item.defaultContent"></div>
             </div>
             <div class="pattern-chooser-name">{{ item.name }}</div>
           </v-card>
@@ -65,6 +65,7 @@ export default {
     text-align: center;
     background: white;
     font-size: 14px;
+    border-radius: 0 !important;
   }
 }
 </style>
