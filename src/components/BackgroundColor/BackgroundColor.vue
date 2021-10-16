@@ -9,13 +9,13 @@
         :value="value"
         @input="$emit('input', $event)"
       />
-      <v-pagination
+      <!-- <v-pagination
         class="mt-4"
         v-model="page"
         :length="totalPages"
         circle
         v-if="totalPages > 1"
-      ></v-pagination>
+      ></v-pagination> -->
     </v-card-text>
   </div>
 </template>
@@ -30,8 +30,6 @@ export default {
     value: String,
   },
   data: () => ({
-    page: 1,
-    totalPages: 0,
     activeColorCategories: [],
     backgroundColor: [],
   }),
@@ -42,18 +40,12 @@ export default {
     async fetchBackgroundColors() {
       const { data } = await fetchBackgroundColors({
         categories: this.activeColorCategories,
-        page: this.page,
       });
-      this.backgroundColor = data.items;
-      this.totalPages = data.meta.totalPages;
+      this.backgroundColor = data;
     },
   },
   watch: {
     activeColorCategories() {
-      this.page = 1;
-      this.fetchBackgroundColors();
-    },
-    page() {
       this.fetchBackgroundColors();
     },
   },

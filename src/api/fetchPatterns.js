@@ -5,7 +5,6 @@ export default async ({ page, categories }) => {
     url: "/patterns/by-category",
     params: {
       page,
-      perPage: 3,
       categories
     },
   });
