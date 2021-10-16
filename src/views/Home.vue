@@ -1,28 +1,31 @@
 <template>
   <div>
     <v-container>
-      <pattern-colors
-        :patternColor.sync="patternColor"
-        :backgroundColor.sync="backgroundColor"
-      />
-      <v-divider class="my-10" />
-      <v-row>
-        <v-col sm="6" cols="12">
-          <pattern-chooser
-            v-model="activePattern"
-            :totalPages="totalPages"
-            :items="fetchedPatterns"
-            :page.sync="page"
-            :activeCategories.sync="activePatternCategories"
-            :categories="patternCategories"
-          />
-        </v-col>
+      <v-row class="">
         <v-col sm="6" cols="12" class="position-relative">
           <!-- <pattern-preview :value="activePatternData" v-if="activePattern" /> -->
           <pattern-canvas
             :svg="activePatternData.content"
             v-if="activePattern"
           />
+        </v-col>
+
+        <v-col sm="6" cols="12">
+          <v-card>
+            <pattern-colors
+              :patternColor.sync="patternColor"
+              :backgroundColor.sync="backgroundColor"
+            />
+
+            <pattern-chooser
+              v-model="activePattern"
+              :totalPages="totalPages"
+              :items="fetchedPatterns"
+              :page.sync="page"
+              :activeCategories.sync="activePatternCategories"
+              :categories="patternCategories"
+            />
+          </v-card>
         </v-col>
       </v-row>
     </v-container>
@@ -73,7 +76,7 @@ export default {
   },
   created() {
     this.fetchPatterns();
-    this.fetchPatternCategories()
+    this.fetchPatternCategories();
   },
   methods: {
     changeColor() {

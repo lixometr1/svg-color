@@ -1,5 +1,5 @@
 <template>
-  <v-card rounded elevation="5" class="pattern-chooser" :loading="isLoading">
+  <div class="pattern-chooser" :loading="isLoading">
     <v-card-title>Choose pattern: </v-card-title>
     <v-card-text>
       <category-filter
@@ -22,7 +22,7 @@
         v-if="totalPages > 0"
       ></v-pagination>
     </v-card-text>
-  </v-card>
+  </div>
 </template>
 
 <script>

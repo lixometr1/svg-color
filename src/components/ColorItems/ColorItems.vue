@@ -1,5 +1,5 @@
 <template>
-  <v-row class="color-items">
+  <v-row class="color-items pb-3">
     <v-col cols="6" sm="4" md="3" v-for="(item, idx) in items" :key="idx">
       <v-card
         class="color-items__item"
@@ -32,7 +32,7 @@ export default {
 
 <style lang="scss">
 .color-items {
-  height: 400px;
+  max-height: 400px;
   overflow: auto;
   &__item {
     position: relative;
