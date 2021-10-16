@@ -13,6 +13,14 @@
           <div v-html="item.defaultContent"></div>
         </div>
         <div class="pattern-chooser-name">{{ item.name }}</div>
+        <v-checkbox
+          :input-value="true"
+          readonly
+          :ripple="false"
+          :value="true"
+          class="pattern-chooser-checkmark"
+          v-if="item.id === value"
+        />
       </v-card>
     </v-col>
   </v-row>
@@ -58,6 +66,17 @@ export default {
     background: white;
     font-size: 14px;
     border-radius: 0 !important;
+  }
+  &-checkmark {
+    position: absolute !important;
+    top: 0 !important;
+    left: auto !important;
+    right: 0 !important;
+    margin-top: 0px !important;
+    margin-right: 0px !important;
+    i {
+      background: white;
+    }
   }
 }
 </style>
