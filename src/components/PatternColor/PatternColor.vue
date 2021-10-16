@@ -39,8 +39,11 @@ export default {
     colorCategories: [],
   }),
 
-  created() {
-    this.fetchPatternColors();
+  async created() {
+    await this.fetchPatternColors();
+    if (this.patternColors[0]) {
+      this.$emit("input", this.patternColors[0]?.hex);
+    }
     this.fetchColorCategories();
   },
   methods: {

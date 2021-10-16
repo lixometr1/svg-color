@@ -33,8 +33,11 @@ export default {
     activeColorCategories: [],
     backgroundColor: [],
   }),
-  created() {
-    this.fetchBackgroundColors();
+  async created() {
+    await this.fetchBackgroundColors();
+    if (this.backgroundColor[0]) {
+      this.$emit("input", this.backgroundColor[0]?.hex);
+    }
   },
   methods: {
     async fetchBackgroundColors() {

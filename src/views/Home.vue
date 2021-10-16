@@ -12,11 +12,6 @@
 
         <v-col sm="6" cols="12">
           <v-card>
-            <pattern-colors
-              :patternColor.sync="patternColor"
-              :backgroundColor.sync="backgroundColor"
-            />
-            <v-divider class="mt-8 mb-2" />
             <pattern-chooser
               v-model="activePattern"
               :totalPages="totalPages"
@@ -24,6 +19,12 @@
               :page.sync="page"
               :activeCategories.sync="activePatternCategories"
               :categories="patternCategories"
+            />
+            <v-divider class="mt-6 mb-4" />
+
+            <pattern-colors
+              :patternColor.sync="patternColor"
+              :backgroundColor.sync="backgroundColor"
             />
           </v-card>
         </v-col>
@@ -74,9 +75,10 @@ export default {
       );
     },
   },
-  created() {
-    this.fetchPatterns();
-    this.fetchPatternCategories();
+  async created() {
+    await this.fetchPatterns();
+    await this.fetchPatternCategories();
+    this.activePattern = this.fetchedPatterns[0]?.id
   },
   methods: {
     changeColor() {
