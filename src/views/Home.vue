@@ -2,7 +2,7 @@
   <div>
     <v-container>
       <v-row class="">
-        <v-col sm="6" cols="12" class="position-relative">
+        <v-col md="6" cols="12" class="position-relative">
           <!-- <pattern-preview :value="activePatternData" v-if="activePattern" /> -->
           <pattern-canvas
             :svg="activePatternData.content"
@@ -10,7 +10,7 @@
           />
         </v-col>
 
-        <v-col sm="6" cols="12">
+        <v-col md="6" cols="12">
           <v-card>
             <pattern-chooser
               v-model="activePattern"

@@ -13,6 +13,15 @@
         <div class="color-items__item-name">
           {{ item.name }}
         </div>
+     
+        <v-checkbox
+          :input-value="true"
+          readonly
+          :ripple="false"
+          :value="true"
+          class="color-items__item-checkmark"
+          v-if="item.hex === value"
+        />
       </v-card>
     </v-col>
   </v-row>
@@ -27,6 +36,8 @@ export default {
     },
     value: [String, Number],
   },
+  data: () => ({
+  }),
 };
 </script>
 
@@ -37,6 +48,7 @@ export default {
   &__item {
     position: relative;
     &-color {
+      position: relative;
       width: 100%;
       //   height: 40px;
       padding-bottom: 100%;
@@ -54,6 +66,14 @@ export default {
       right: 0;
       border-bottom-left-radius: 0 !important;
       border-bottom-right-radius: 0 !important;
+    }
+    &-checkmark {
+      position: absolute !important;
+      top: 0 !important;
+      left: auto !important;
+      right: 0 !important;
+      margin-top: 0px !important;
+      margin-right: 0px !important;
     }
   }
 }

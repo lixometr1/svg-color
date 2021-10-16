@@ -1,6 +1,6 @@
 <template>
   <v-row>
-    <v-col cols="12" sm="6" v-for="(item, idx) in items" :key="idx">
+    <v-col cols="6" v-for="(item, idx) in items" :key="idx">
       <v-card
         class="pattern-chooser-item"
         :elevation="value === item.id ? 20 : 2"
@@ -53,7 +53,7 @@ export default {
     bottom: 0;
     left: 0;
     right: 0;
-    padding: 8px 4px;
+    padding: 4px 4px;
     text-align: center;
     background: white;
     font-size: 14px;
