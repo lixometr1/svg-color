@@ -1,29 +1,21 @@
 <template>
-  <v-item-group
-    :value="value"
-    @change="$emit('input', $event)"
-    class="pattern-chooser"
-  >
-    <v-row>
-      <v-col cols="12" sm="6" v-for="(item, idx) in items" :key="idx">
-        <v-item v-slot="{ active, toggle }" :value="item.id">
-          <v-card
-            class="pattern-chooser-item"
-            :elevation="active ? 20 : 2"
-            @click="toggle"
-          >
-            <div class="pattern-chooser-images">
-              <div v-html="item.defaultContent"></div>
-              <div v-html="item.defaultContent"></div>
-              <div v-html="item.defaultContent"></div>
-              <div v-html="item.defaultContent"></div>
-            </div>
-            <div class="pattern-chooser-name">{{ item.name }}</div>
-          </v-card>
-        </v-item>
-      </v-col>
-    </v-row>
-  </v-item-group>
+  <v-row>
+    <v-col cols="12" sm="6" v-for="(item, idx) in items" :key="idx">
+      <v-card
+        class="pattern-chooser-item"
+        :elevation="value === item.id ? 20 : 2"
+        @click="$emit('input', item.id)"
+      >
+        <div class="pattern-chooser-images">
+          <div v-html="item.defaultContent"></div>
+          <div v-html="item.defaultContent"></div>
+          <div v-html="item.defaultContent"></div>
+          <div v-html="item.defaultContent"></div>
+        </div>
+        <div class="pattern-chooser-name">{{ item.name }}</div>
+      </v-card>
+    </v-col>
+  </v-row>
 </template>
 
 <script>

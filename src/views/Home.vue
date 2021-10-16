@@ -30,7 +30,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-snackbar v-model="showTooltip">
+    <!-- <v-snackbar v-model="showTooltip">
       {{ tooltipText }}
 
       <template v-slot:action="{ attrs }">
@@ -38,7 +38,7 @@
           Close
         </v-btn>
       </template>
-    </v-snackbar>
+    </v-snackbar> -->
   </div>
 </template>
 
@@ -78,7 +78,8 @@ export default {
   async created() {
     await this.fetchPatterns();
     await this.fetchPatternCategories();
-    this.activePattern = this.fetchedPatterns[0]?.id
+    this.activePattern = this.fetchedPatterns[0]?.id;
+    this.changeColor()
   },
   methods: {
     changeColor() {
@@ -122,14 +123,9 @@ export default {
 
       this.totalPages = meta.totalPages;
 
-      const startTime = new Date().getTime();
       this.isLoading = true;
       await this.fetchPatternsData(items);
       this.isLoading = false;
-      const endTime = new Date().getTime();
-      this.tooltipText =
-        "Images were loaded in " + (endTime - startTime) + "ms";
-      this.showTooltip = true;
     },
   },
   watch: {
